@@ -1,0 +1,755 @@
+/* ========== 全局基础 ========== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "微软雅黑", sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: #333;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ========== 页面切换:只显示 .active ========== */
+.page {
+    display: none;
+    width: 100%;
+    max-width: 480px;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ========== 通用卡片容器 ========== */
+.welcome-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    font-size: 36px;
+    color: #c44569;
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #c44569;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.hint {
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+/* ========== 表单 ========== */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #ff6b9d;
+}
+
+/* ========== 按钮 ========== */
+.btn {
+    padding: 12px 24px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: #ff6b9d;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #e85585;
+}
+
+.btn-secondary {
+    background: #fff0f5;
+    color: #c44569;
+}
+
+.btn-secondary:hover {
+    background: #ffe0eb;
+}
+
+.btn-text {
+    background: transparent;
+    color: #888;
+    padding: 8px 12px;
+}
+
+.btn-text:hover {
+    color: #c44569;
+}
+
+.btn-small {
+    padding: 6px 14px;
+    font-size: 13px;
+    background: #fff0f5;
+    color: #c44569;
+}
+
+.btn-small:hover {
+    background: #ffe0eb;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn-row .btn {
+    flex: 1;
+}
+
+/* ========== 头像显示 ========== */
+.avatar-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.big-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #fff0f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    margin-bottom: 8px;
+}
+
+.nick-display {
+    font-size: 16px;
+    color: #c44569;
+    font-weight: 500;
+}
+
+/* ========== 房间号显示 ========== */
+.room-code-display {
+    background: #fff5f8;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.room-code-display .label {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.room-code-display .code {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: #c44569;
+    margin-bottom: 12px;
+    font-family: "Courier New", monospace;
+}
+
+/* ========== 设置页 ========== */
+.setup-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.players-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 16px 0 24px;
+    background: #fff5f8;
+    border-radius: 12px;
+    padding: 16px 8px;
+}
+
+.player-card {
+    text-align: center;
+    flex: 1;
+}
+
+.player-card .nick-display {
+    margin-top: 4px;
+}
+
+.role-tag {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 10px;
+    font-size: 11px;
+    background: #ffe0eb;
+    color: #c44569;
+    border-radius: 10px;
+}
+
+.vs-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #c44569;
+    padding: 0 8px;
+}
+
+.config-area {
+    margin-bottom: 20px;
+}
+
+.config-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5e5ec;
+}
+
+.config-row:last-child {
+    border-bottom: none;
+}
+
+.config-row label {
+    font-size: 14px;
+    color: #555;
+}
+
+.cfg-input {
+    width: 130px;
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 2px solid #ffe0eb;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+}
+
+.cfg-input:focus {
+    border-color: #ff6b9d;
+}
+
+.cfg-input:disabled {
+    background: #fafafa;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.readonly-tip {
+    background: #fff5f8;
+    color: #c44569;
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.start-area {
+    margin-top: 16px;
+}
+
+.start-tip {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* ========== 游戏页 ========== */
+.page-game-wide.active {
+    display: block;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.game-container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    padding: 16px 20px;
+}
+
+.game-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #ffe0eb;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.topbar-left, .topbar-right {
+    color: #888;
+}
+
+.topbar-left span {
+    color: #c44569;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.topbar-center {
+    color: #c44569;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.game-main {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+/* 玩家面板 */
+.side-panel {
+    background: #fff5f8;
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+}
+
+.player-block {
+    margin-bottom: 10px;
+}
+
+.player-block .big-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 34px;
+    margin: 0 auto 4px;
+}
+
+.grid-label {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+/* 格子图 */
+.grid-wrap {
+    display: grid;
+    gap: 4px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 8px;
+    border: 2px solid #ffe0eb;
+}
+
+.grid-cell {
+    aspect-ratio: 1;
+    background: #fff5f8;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #c44569;
+    cursor: default;
+    user-select: none;
+    transition: transform 0.1s;
+    min-height: 24px;
+}
+
+.grid-cell.clickable {
+    cursor: pointer;
+}
+
+.grid-cell.clickable:hover {
+    background: #ffe0eb;
+}
+
+.grid-cell.marked {
+    background: #ff6b9d;
+    color: #fff;
+}
+
+.grid-cell.just-marked {
+    animation: pop 0.25s ease-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.6); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* 中间面板 */
+.center-panel {
+    background: #fff5f8;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.question-display {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+    border: 2px dashed #ffafbd;
+}
+
+.q-label {
+    color: #888;
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+.q-number {
+    color: #ff6b9d;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* 数字堆:宽度固定480,高度由JS按数字数量+疏密计算,数字不重叠 */
+.number-pool {
+    background: #fff;
+    border-radius: 10px;
+    width: 480px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    border: 2px dashed #ffe0eb;
+    margin: 0 auto;
+    /* height 由 JS 设置 */
+}
+
+/* 中间面板限高,数字堆很长时可以滚动看下面;窄屏时横向滚动 */
+.center-panel {
+    max-height: 78vh;
+    overflow: auto;
+}
+
+.pool-num {
+    position: absolute;
+    padding: 2px 4px;
+    color: #4a4a4a;
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 1;
+    user-select: none;
+    transition: background 0.15s, color 0.15s;
+    /* transform 由 JS 设置(translate居中+rotate旋转) */
+}
+
+.pool-num:hover {
+    background: #ffe0eb;
+    color: #c44569;
+    z-index: 10;
+}
+
+.pool-num.flash-correct {
+    animation: flashGreen 0.5s ease-out;
+}
+
+.pool-num.flash-wrong {
+    animation: flashRed 0.4s ease-out;
+}
+
+@keyframes flashGreen {
+    0% { background: #27ae60; color: #fff; }
+    100% { background: transparent; color: #4a4a4a; }
+}
+
+@keyframes flashRed {
+    0% { background: #e74c3c; color: #fff; }
+    100% { background: transparent; color: #4a4a4a; }
+}
+
+.random-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.role-indicator {
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    color: #c44569;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.role-indicator.questioner {
+    background: #fff0f5;
+    color: #c44569;
+}
+
+.role-indicator.finder {
+    background: #f0fff4;
+    color: #27ae60;
+}
+
+.role-indicator.waiting {
+    color: #888;
+}
+
+/* ========== 聊天面板 ========== */
+.chat-panel {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100;
+}
+
+.chat-toggle {
+    background: #ff6b9d;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(255, 107, 157, 0.4);
+    transition: transform 0.15s;
+}
+
+.chat-toggle:hover {
+    transform: translateY(-2px);
+}
+
+.chat-toggle.has-unread {
+    animation: chatPulse 1.2s infinite;
+}
+
+@keyframes chatPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 16px rgba(255, 107, 157, 0.4);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 4px 28px rgba(255, 107, 157, 0.9);
+    }
+}
+
+.chat-badge {
+    background: #fff;
+    color: #ff6b9d;
+    border-radius: 10px;
+    padding: 1px 7px;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    display: none;
+}
+
+.chat-toggle.has-unread .chat-badge {
+    display: inline-block;
+}
+
+.chat-body {
+    width: 320px;
+    height: 420px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-body[hidden] {
+    display: none;
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+    color: #fff;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.chat-close {
+    background: transparent;
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+    border-radius: 4px;
+}
+
+.chat-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background: #fff5f8;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chat-msg {
+    max-width: 75%;
+    padding: 7px 11px;
+    border-radius: 12px;
+    font-size: 14px;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.chat-msg.mine {
+    background: #ff6b9d;
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-msg.theirs {
+    background: #fff;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #ffe0eb;
+}
+
+.chat-msg.system {
+    background: transparent;
+    color: #aaa;
+    align-self: center;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+.chat-input-row {
+    display: flex;
+    padding: 8px;
+    gap: 6px;
+    background: #fff;
+    border-top: 1px solid #ffe0eb;
+}
+
+.chat-input-row input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 2px solid #ffe0eb;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.chat-input-row input:focus {
+    border-color: #ff6b9d;
+}
+
+.chat-input-row .btn {
+    padding: 8px 14px;
+}
+
+/* 结算页 */
+.result-emoji {
+    font-size: 64px;
+    margin-bottom: 12px;
+}
+
+/* 小屏适配 */
+@media (max-width: 900px) {
+    .game-main {
+        grid-template-columns: 1fr;
+    }
+    .side-panel {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: center;
+        text-align: left;
+    }
+    .player-block {
+        margin: 0;
+    }
+}
+
+/* ========== 状态提示 ========== */
+.waiting-status, .join-status {
+    color: #888;
+    font-size: 14px;
+    margin: 16px 0;
+    min-height: 20px;
+}
+
+.join-status.error {
+    color: #e74c3c;
+}
+
+.join-status.success {
+    color: #27ae60;
+}

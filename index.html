@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找数字 · 双人联机</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 页面1：欢迎页 -->
+    <section id="page-welcome" class="page active">
+        <div class="welcome-box">
+            <h1>找数字</h1>
+            <p class="subtitle">双人联机版 · 谁先把格子画满谁赢</p>
+
+            <div class="form-group">
+                <label for="nickname-input">输入你的昵称</label>
+                <input type="text" id="nickname-input" maxlength="12" placeholder="最多12个字符">
+            </div>
+
+            <div class="btn-row">
+                <button id="btn-goto-create" class="btn btn-primary">创建房间</button>
+                <button id="btn-goto-join" class="btn btn-secondary">加入房间</button>
+            </div>
+
+            <p class="hint">小提示：玩前先想好和谁玩,把房间号发给对方。</p>
+        </div>
+    </section>
+
+    <!-- 页面2:创建房间(房主等待对方加入) -->
+    <section id="page-create" class="page">
+        <div class="welcome-box">
+            <h2>你的房间</h2>
+            <div class="avatar-display">
+                <div class="big-avatar" id="create-avatar">🦊</div>
+                <div class="nick-display" id="create-nick">昵称</div>
+            </div>
+
+            <div class="room-code-display">
+                <div class="label">房间号</div>
+                <div class="code" id="room-code">------</div>
+                <button id="btn-copy-code" class="btn btn-small">复制房间号</button>
+            </div>
+
+            <div class="waiting-status" id="create-status">
+                等待对方加入...
+            </div>
+
+            <button id="btn-create-back" class="btn btn-text">返回</button>
+        </div>
+    </section>
+
+    <!-- 页面3:加入房间(输入房间号) -->
+    <section id="page-join" class="page">
+        <div class="welcome-box">
+            <h2>加入房间</h2>
+            <div class="avatar-display">
+                <div class="big-avatar" id="join-avatar">🐼</div>
+                <div class="nick-display" id="join-nick">昵称</div>
+            </div>
+
+            <div class="form-group">
+                <label for="room-code-input">输入6位房间号</label>
+                <input type="text" id="room-code-input" maxlength="6" placeholder="例如 123456">
+            </div>
+
+            <div class="join-status" id="join-status"></div>
+
+            <div class="btn-row">
+                <button id="btn-do-join" class="btn btn-primary">加入</button>
+                <button id="btn-join-back" class="btn btn-text">返回</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页面4:房内设置 -->
+    <section id="page-setup" class="page">
+        <div class="setup-box">
+            <h2>对局设置</h2>
+
+            <!-- 双方头像展示 -->
+            <div class="players-row">
+                <div class="player-card">
+                    <div class="big-avatar" id="setup-my-avatar">🦊</div>
+                    <div class="nick-display" id="setup-my-nick">我</div>
+                    <div class="role-tag" id="setup-my-role">房主</div>
+                </div>
+                <div class="vs-label">VS</div>
+                <div class="player-card">
+                    <div class="big-avatar" id="setup-peer-avatar">🐼</div>
+                    <div class="nick-display" id="setup-peer-nick">对方</div>
+                    <div class="role-tag" id="setup-peer-role">客人</div>
+                </div>
+            </div>
+
+            <!-- 配置区(只有房主可改) -->
+            <div class="config-area" id="config-area">
+                <div class="config-row">
+                    <label>格子行数</label>
+                    <input type="number" id="cfg-rows" min="1" max="10" value="3" class="cfg-input">
+                </div>
+                <div class="config-row">
+                    <label>格子列数</label>
+                    <input type="number" id="cfg-cols" min="1" max="10" value="3" class="cfg-input">
+                </div>
+                <div class="config-row">
+                    <label>数字总量</label>
+                    <input type="number" id="cfg-numcount" min="20" max="500" value="100" class="cfg-input">
+                </div>
+                <div class="config-row">
+                    <label>数字位数</label>
+                    <select id="cfg-digits" class="cfg-input">
+                        <option value="1">1位 (0-9)</option>
+                        <option value="2">2位 (10-99)</option>
+                        <option value="3">3位 (100-999)</option>
+                    </select>
+                </div>
+                <div class="config-row">
+                    <label>数字疏密</label>
+                    <select id="cfg-density" class="cfg-input">
+                        <option value="1">紧凑</option>
+                        <option value="2">较紧</option>
+                        <option value="3" selected>中等</option>
+                        <option value="4">较松</option>
+                        <option value="5">宽松</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 客人只读提示 -->
+            <div id="guest-readonly-tip" class="readonly-tip" style="display:none;">
+                以上设置由房主决定,等待房主开始游戏...
+            </div>
+
+            <!-- 房主开始按钮 -->
+            <div id="host-start-area" class="start-area">
+                <p class="start-tip">谁先出题?</p>
+                <div class="btn-row">
+                    <button id="btn-start-me-first" class="btn btn-primary">我先出题</button>
+                    <button id="btn-start-peer-first" class="btn btn-secondary">对方先出题</button>
+                </div>
+            </div>
+
+            <button id="btn-setup-back" class="btn btn-text">退出房间</button>
+        </div>
+    </section>
+
+    <!-- 页面5:游戏页 -->
+    <section id="page-game" class="page page-game-wide">
+        <div class="game-container">
+            <!-- 顶栏:房间号、比分、当前角色 -->
+            <div class="game-topbar">
+                <div class="topbar-left">房间号 <span id="game-room-code">------</span></div>
+                <div class="topbar-center">
+                    <span id="game-role-tip">游戏中</span>
+                </div>
+                <div class="topbar-right">
+                    <button id="btn-game-quit" class="btn btn-text">退出</button>
+                </div>
+            </div>
+
+            <!-- 主体:左格子 | 中数字堆 | 右格子 -->
+            <div class="game-main">
+
+                <!-- 左:我 -->
+                <div class="side-panel">
+                    <div class="player-block">
+                        <div class="big-avatar" id="game-my-avatar">🦊</div>
+                        <div class="nick-display" id="game-my-nick">我</div>
+                    </div>
+                    <div class="grid-label">我的格子</div>
+                    <div class="grid-wrap" id="my-grid"></div>
+                </div>
+
+                <!-- 中:数字堆 -->
+                <div class="center-panel">
+                    <div class="question-display">
+                        <span class="q-label">题目</span>
+                        <span class="q-number" id="current-question">-</span>
+                    </div>
+
+                    <div class="number-pool" id="number-pool"></div>
+
+                    <div class="random-buttons">
+                        <button id="btn-shuffle" class="btn btn-small">🔀 重洗位置</button>
+                        <button id="btn-resize" class="btn btn-small">🔤 随机字号</button>
+                        <button id="btn-rotate" class="btn btn-small">🔄 随机旋转</button>
+                    </div>
+
+                    <div class="role-indicator" id="role-indicator">
+                        请等待...
+                    </div>
+                </div>
+
+                <!-- 右:对方 -->
+                <div class="side-panel">
+                    <div class="player-block">
+                        <div class="big-avatar" id="game-peer-avatar">🐼</div>
+                        <div class="nick-display" id="game-peer-nick">对方</div>
+                    </div>
+                    <div class="grid-label">对方格子</div>
+                    <div class="grid-wrap" id="peer-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天面板:悬浮在右下角,默认折叠,新消息闪烁 -->
+        <div class="chat-panel">
+            <button class="chat-toggle" id="chat-toggle">
+                💬 聊天<span class="chat-badge" id="chat-badge">0</span>
+            </button>
+            <div class="chat-body" id="chat-body" hidden>
+                <div class="chat-header">
+                    <span>💬 聊天</span>
+                    <button class="chat-close" id="chat-close" type="button">×</button>
+                </div>
+                <div class="chat-messages" id="chat-messages"></div>
+                <form class="chat-input-row" id="chat-form">
+                    <input type="text" id="chat-input" placeholder="输入消息..." maxlength="200" autocomplete="off">
+                    <button type="submit" class="btn btn-primary">发送</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页面6:结算页 -->
+    <section id="page-result" class="page">
+        <div class="welcome-box">
+            <div class="result-emoji" id="result-emoji">🎉</div>
+            <h2 id="result-title">恭喜获胜!</h2>
+            <p id="result-detail" class="subtitle">你的格子先满了</p>
+            <div class="btn-row">
+                <button id="btn-rematch" class="btn btn-primary">再来一局</button>
+                <button id="btn-result-quit" class="btn btn-secondary">退出房间</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- JS 入口 -->
+    <script src="js/ui.js"></script>
+    <script src="js/peer.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
