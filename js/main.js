@@ -54,6 +54,19 @@ const Chat = {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ========== 玩法说明弹窗(每次进入都弹,关闭按钮可隐藏) ==========
+    const howToOverlay = document.getElementById('how-to-overlay');
+    document.getElementById('how-to-close').addEventListener('click', () => {
+        howToOverlay.hidden = true;
+    });
+    document.getElementById('how-to-ok').addEventListener('click', () => {
+        howToOverlay.hidden = true;
+    });
+    // 点击遮罩区域(卡片外)也关闭
+    howToOverlay.addEventListener('click', (e) => {
+        if (e.target === howToOverlay) howToOverlay.hidden = true;
+    });
+
     // ========== 欢迎页:创建房间 ==========
     document.getElementById('btn-goto-create').addEventListener('click', () => {
         const nick = document.getElementById('nickname-input').value.trim();
@@ -209,7 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
         Game.state.currentNumber = data.value;
         Game.state.phase = 'finding';
         UI.setQuestion(data.value);
-        UI.setRoleIndicator('对方在出题,你来找数字!', 'finder');
+        UI.setRoleIndicator('快找数字!', 'finder');
+        UI.setPeerStatus('对方在画叉...', 'questioner');
         UI.setMyGridClickable(false);
     });
 
@@ -219,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { row, col } = data;
         Game.state.peerGrid[row][col] = true;
         UI.markGridCell('peer', row, col);
+        UI.setPeerProgress();
         // 检查是否对方满了
         if (Game.isGridFull(Game.state.peerGrid)) {
             endGame('peer');
@@ -228,7 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========== 联机消息:我作为出题方时,对方找到了我的题 ==========
     Net.on('found', () => {
         // 我之前是出题方,对方点中了
-        UI.setRoleIndicator('对方找到了,轮到对方出题', 'waiting');
+        UI.setRoleIndicator('等对方出题...', 'waiting');
+        UI.setPeerStatus('对方在选题...', 'questioner');
         Game.state.currentQuestioner = 'peer';
         Game.state.currentNumber = null;
         Game.state.phase = 'waiting-question';
@@ -452,16 +468,19 @@ function startGame(meFirst) {
     UI.renderGrid('my');
     UI.renderGrid('peer');
     UI.setQuestion(null);
+    UI.setPeerProgress();
 
     if (meFirst) {
         Game.state.currentQuestioner = 'me';
         Game.state.phase = 'waiting-question';
-        UI.setRoleIndicator('你来出题:在数字堆里点一个数字', 'questioner');
+        UI.setRoleIndicator('你来出题:点数字堆里一个数字', 'questioner');
+        UI.setPeerStatus('等你出题...', 'waiting');
         UI.setMyGridClickable(false);
     } else {
         Game.state.currentQuestioner = 'peer';
         Game.state.phase = 'waiting-question';
         UI.setRoleIndicator('等对方出题...', 'waiting');
+        UI.setPeerStatus('对方在选题...', 'questioner');
         UI.setMyGridClickable(false);
     }
 }
@@ -475,7 +494,8 @@ function handlePoolClick(idx, value) {
         Game.state.currentNumber = value;
         Game.state.phase = 'questioning';
         UI.setQuestion(value);
-        UI.setRoleIndicator('出题中:点你的格子画叉!', 'questioner');
+        UI.setRoleIndicator('点你的格子画叉!', 'questioner');
+        UI.setPeerStatus('对方在找数字...', 'finder');
         UI.setMyGridClickable(true);
         UI.flashPoolNum(idx, true);
         Net.send('question', { value });
@@ -493,7 +513,8 @@ function handlePoolClick(idx, value) {
             Game.state.currentNumber = null;
             Game.state.phase = 'waiting-question';
             UI.setQuestion(null);
-            UI.setRoleIndicator('轮到你出题:在数字堆里点一个数字', 'questioner');
+            UI.setRoleIndicator('轮到你出题:点数字堆里一个数字', 'questioner');
+            UI.setPeerStatus('等你出题...', 'waiting');
             UI.setMyGridClickable(false);
         } else {
             // 找错了,继续找
