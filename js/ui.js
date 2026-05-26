@@ -34,21 +34,26 @@ const UI = {
         return code;
     },
 
-    // ========== 渲染数字堆(像素坐标,不重叠) ==========
+    // ========== 渲染数字堆(像素坐标,小屏自动缩放) ==========
+    // 坐标系是 480px 基准。手机窄屏时按容器实际宽度等比缩小,
+    // 双方仍用同一份 pool 数据,只是渲染时缩放,不影响逻辑。
     renderNumberPool() {
         const pool = Game.state.numberPool;
         const container = document.getElementById('number-pool');
+        const POOL_BASE_WIDTH = 480;
+        const actualWidth = container.clientWidth || POOL_BASE_WIDTH;
+        const scale = Math.min(1, actualWidth / POOL_BASE_WIDTH);
+
         container.innerHTML = '';
-        // 容器固定宽,高度由 game.js 算好
-        container.style.height = Game.state.poolHeight + 'px';
+        container.style.height = (Game.state.poolHeight * scale) + 'px';
 
         pool.forEach((n, idx) => {
             const span = document.createElement('span');
             span.className = 'pool-num';
             span.textContent = n.value;
-            span.style.fontSize = n.size + 'px';
-            span.style.left = n.x + 'px';
-            span.style.top = n.y + 'px';
+            span.style.fontSize = (n.size * scale) + 'px';
+            span.style.left = (n.x * scale) + 'px';
+            span.style.top = (n.y * scale) + 'px';
             span.style.transform = 'translate(-50%, -50%) rotate(' + n.rotation + 'deg)';
             span.dataset.idx = idx;
             span.dataset.value = n.value;

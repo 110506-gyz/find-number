@@ -342,6 +342,19 @@ document.addEventListener('DOMContentLoaded', () => {
         Chat.receivePeer(data.text);
     });
 
+    // ========== 窗口大小变化时,重新渲染数字堆(手机旋转/调浏览器大小) ==========
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        // 防抖:停止变化后 150ms 再重渲染
+        resizeTimer = setTimeout(() => {
+            const gamePage = document.getElementById('page-game');
+            if (gamePage.classList.contains('active') && Game.state.numberPool.length > 0) {
+                UI.renderNumberPool();
+            }
+        }, 150);
+    });
+
     // ========== 结算页:再来一局 ==========
     document.getElementById('btn-rematch').addEventListener('click', () => {
         Game.state.phase = 'idle';
