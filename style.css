@@ -721,20 +721,58 @@ h2 {
     margin-bottom: 12px;
 }
 
-/* 小屏适配 */
-@media (max-width: 900px) {
+/* 小屏适配:手机竖屏 */
+@media (max-width: 700px) {
+    /* 三栏 → 单列 */
     .game-main {
         grid-template-columns: 1fr;
-    }
-    .side-panel {
-        display: grid;
-        grid-template-columns: auto 1fr;
         gap: 12px;
-        align-items: center;
-        text-align: left;
     }
-    .player-block {
-        margin: 0;
+    /* 顺序重排:对方(上) → 数字堆(中) → 我(下) */
+    .game-main > .side-panel:first-child { order: 3; }
+    .game-main > .center-panel { order: 2; }
+    .game-main > .side-panel:last-child { order: 1; }
+
+    /* 数字堆容器在小屏下宽度自适应,内部数字按比例缩放(JS处理) */
+    .number-pool {
+        width: 100%;
+        max-width: 480px;
+        flex-shrink: 1;
+    }
+
+    /* 中间面板取消限高,让数字堆完整显示 */
+    .center-panel {
+        max-height: none;
+        overflow: visible;
+    }
+
+    /* 标题栏文字小一点 */
+    .game-topbar {
+        font-size: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* 头像稍小 */
+    .side-panel .big-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+    }
+
+    /* 聊天框小屏下尺寸适配 */
+    .chat-body {
+        width: calc(100vw - 32px);
+        max-width: 320px;
+        height: 60vh;
+        max-height: 420px;
+    }
+    .chat-toggle {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+    .chat-panel {
+        bottom: 12px;
+        right: 12px;
     }
 }
 
