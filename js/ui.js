@@ -37,6 +37,7 @@ const UI = {
     // ========== 渲染数字堆(像素坐标,小屏自动缩放) ==========
     // 坐标系是 480px 基准。手机窄屏时按容器实际宽度等比缩小,
     // 双方仍用同一份 pool 数据,只是渲染时缩放,不影响逻辑。
+    // 字号保底10px防止看不清。
     renderNumberPool() {
         const pool = Game.state.numberPool;
         const container = document.getElementById('number-pool');
@@ -51,7 +52,8 @@ const UI = {
             const span = document.createElement('span');
             span.className = 'pool-num';
             span.textContent = n.value;
-            span.style.fontSize = (n.size * scale) + 'px';
+            // 字号保底 10px,避免缩太小看不清
+            span.style.fontSize = Math.max(10, n.size * scale) + 'px';
             span.style.left = (n.x * scale) + 'px';
             span.style.top = (n.y * scale) + 'px';
             span.style.transform = 'translate(-50%, -50%) rotate(' + n.rotation + 'deg)';
@@ -109,16 +111,42 @@ const UI = {
         });
     },
 
-    // ========== 显示题目数字 ==========
+    // ========== 显示/隐藏自己面板上的题目数字 ==========
     setQuestion(num) {
-        document.getElementById('current-question').textContent = num === null ? '-' : num;
+        const box = document.getElementById('my-question');
+        const span = document.getElementById('current-question');
+        if (num === null || num === undefined) {
+            box.hidden = true;
+            span.textContent = '-';
+        } else {
+            box.hidden = false;
+            span.textContent = num;
+        }
     },
 
-    // ========== 角色提示 ==========
+    // ========== 自己面板的角色提示 ==========
     setRoleIndicator(text, kind) {
-        const el = document.getElementById('role-indicator');
+        const el = document.getElementById('my-status');
         el.textContent = text;
-        el.className = 'role-indicator ' + (kind || '');
+        el.className = 'panel-status ' + (kind || '');
+    },
+
+    // ========== 对方面板的状态文字(已废弃,保留空实现避免改 main.js 太多) ==========
+    setPeerStatus(text, kind) {
+        // 用户要求不显示对方状态,此方法不再操作 DOM
+    },
+
+    // ========== 对方面板的进度文字(已画N/M格) ==========
+    setPeerProgress() {
+        const grid = Game.state.peerGrid;
+        let painted = 0, total = 0;
+        for (let r = 0; r < grid.length; r++) {
+            for (let c = 0; c < grid[r].length; c++) {
+                total++;
+                if (grid[r][c]) painted++;
+            }
+        }
+        document.getElementById('peer-progress').textContent = '已画 ' + painted + '/' + total + ' 格';
     },
 
     // ========== 数字堆中匹配的数字闪烁(正确/错误) ==========
