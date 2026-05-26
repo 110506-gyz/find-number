@@ -7,6 +7,42 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- 玩法说明弹窗(每次进入都弹,用户手动关闭) -->
+    <div class="how-to-overlay" id="how-to-overlay">
+        <div class="how-to-card">
+            <button class="how-to-close" id="how-to-close" type="button" aria-label="关闭">×</button>
+            <h2>🎮 找数字 · 怎么玩</h2>
+            <div class="how-to-body">
+                <h3>🎯 目标</h3>
+                <p>两人比谁先把自己的格子全部画满叉,先满者获胜。</p>
+
+                <h3>📝 流程</h3>
+                <p>1. 一方<b>创建房间</b>得到6位房间号,把号告诉对方</p>
+                <p>2. 对方输入房间号加入</p>
+                <p>3. 房主设置:格子大小、数字总量、位数、疏密</p>
+                <p>4. 选谁先<b>出题</b>,开始</p>
+
+                <h3>🎲 在游戏中</h3>
+                <p>· <b>出题方</b>:在中间数字堆里点一个数字 → 然后疯狂点自己的格子画叉</p>
+                <p>· <b>找数字方</b>:在数字堆里找出题方点的那个数字,点中它</p>
+                <p>· 找到的瞬间 → 出题方停止画叉,<b>角色对调</b></p>
+                <p>· 找错没事,继续找</p>
+
+                <h3>🛠 数字堆三个按钮</h3>
+                <p>· 🔀 <b>重洗位置</b>:打乱所有数字的位置</p>
+                <p>· 🔤 <b>随机字号</b>:数字大小重新随机</p>
+                <p>· 🔄 <b>随机旋转</b>:数字角度重新随机</p>
+
+                <h3>💬 聊天框</h3>
+                <p>游戏页右下角粉色按钮,点开可以一边玩一边聊天。</p>
+
+                <h3>📱 手机也能玩</h3>
+                <p>同一个网址用手机打开就行,布局会自动适配。</p>
+            </div>
+            <button class="how-to-ok" id="how-to-ok" type="button">我知道了,开始玩!</button>
+        </div>
+    </div>
+
     <!-- 页面1：欢迎页 -->
     <section id="page-welcome" class="page active">
         <div class="welcome-box">

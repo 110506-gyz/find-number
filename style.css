@@ -569,6 +569,106 @@ h2 {
     flex-wrap: wrap;
 }
 
+/* ========== 玩法说明弹窗 ========== */
+.how-to-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.how-to-overlay[hidden] {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.how-to-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px 22px 20px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.how-to-card h2 {
+    color: #c44569;
+    font-size: 22px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.how-to-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background: #fff0f5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: #c44569;
+    transition: background 0.15s;
+}
+
+.how-to-close:hover {
+    background: #ffe0eb;
+}
+
+.how-to-body {
+    margin-top: 12px;
+}
+
+.how-to-body h3 {
+    color: #c44569;
+    margin: 14px 0 6px;
+    font-size: 15px;
+}
+
+.how-to-body p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 3px;
+}
+
+.how-to-body b {
+    color: #c44569;
+}
+
+.how-to-ok {
+    margin-top: 18px;
+    width: 100%;
+    padding: 12px;
+    background: #ff6b9d;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.15s;
+}
+
+.how-to-ok:hover {
+    background: #e85585;
+}
+
 /* ========== 聊天面板 ========== */
 .chat-panel {
     position: fixed;
