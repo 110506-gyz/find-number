@@ -163,22 +163,23 @@
             <div class="game-main">
 
                 <!-- 左:我 -->
-                <div class="side-panel">
-                    <div class="player-block">
+                <div class="side-panel" id="my-panel">
+                    <div class="panel-top">
                         <div class="big-avatar" id="game-my-avatar">🦊</div>
-                        <div class="nick-display" id="game-my-nick">我</div>
+                        <div class="panel-info">
+                            <div class="nick-display" id="game-my-nick">我</div>
+                            <div class="panel-status" id="my-status">游戏中...</div>
+                            <div class="panel-question" id="my-question" hidden>
+                                <span class="q-label">题目</span>
+                                <span class="q-number" id="current-question">-</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="grid-label">我的格子</div>
                     <div class="grid-wrap" id="my-grid"></div>
                 </div>
 
                 <!-- 中:数字堆 -->
                 <div class="center-panel">
-                    <div class="question-display">
-                        <span class="q-label">题目</span>
-                        <span class="q-number" id="current-question">-</span>
-                    </div>
-
                     <div class="number-pool" id="number-pool"></div>
 
                     <div class="random-buttons">
@@ -186,19 +187,17 @@
                         <button id="btn-resize" class="btn btn-small">🔤 随机字号</button>
                         <button id="btn-rotate" class="btn btn-small">🔄 随机旋转</button>
                     </div>
-
-                    <div class="role-indicator" id="role-indicator">
-                        请等待...
-                    </div>
                 </div>
 
-                <!-- 右:对方 -->
-                <div class="side-panel">
-                    <div class="player-block">
+                <!-- 右:对方(不显示状态,只显示头像/昵称/进度数字) -->
+                <div class="side-panel" id="peer-panel">
+                    <div class="panel-top">
                         <div class="big-avatar" id="game-peer-avatar">🐼</div>
-                        <div class="nick-display" id="game-peer-nick">对方</div>
+                        <div class="panel-info">
+                            <div class="nick-display" id="game-peer-nick">对方</div>
+                            <div class="panel-progress" id="peer-progress">已画 0/0 格</div>
+                        </div>
                     </div>
-                    <div class="grid-label">对方格子</div>
                     <div class="grid-wrap" id="peer-grid"></div>
                 </div>
             </div>

@@ -6,18 +6,22 @@
 }
 
 html, body {
-    height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei", "微软雅黑", sans-serif;
     background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
     color: #333;
+    /* 禁用浏览器的下拉刷新和过度滚动效果 */
+    overscroll-behavior-y: contain;
 }
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
     min-height: 100vh;
     padding: 20px;
+    box-sizing: border-box;
+    /* 用 grid 居中:内容小则居中,内容大则自然从顶部排,可滚动 */
+    display: grid;
+    place-content: center;       /* fallback:普通居中 */
+    place-content: safe center;  /* 新浏览器:溢出时自动回退顶部对齐 */
 }
 
 /* ========== 页面切换:只显示 .active ========== */
@@ -359,29 +363,89 @@ h2 {
     align-items: start;
 }
 
-/* 玩家面板 */
+/* 玩家面板:头像左,题目和提示右,下面格子 */
 .side-panel {
     background: #fff5f8;
     border-radius: 12px;
-    padding: 16px 12px;
+    padding: 14px 12px;
+}
+
+.panel-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.panel-top .big-avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 30px;
+    flex-shrink: 0;
+}
+
+.panel-info {
+    flex: 1;
+    text-align: left;
+    min-width: 0;
+}
+
+.panel-info .nick-display {
+    font-size: 14px;
+    color: #c44569;
+    font-weight: 600;
+}
+
+.panel-status {
+    font-size: 13px;
+    color: #555;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+.panel-status.questioner {
+    color: #c44569;
+    font-weight: 500;
+}
+
+.panel-status.finder {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.panel-status.waiting {
+    color: #888;
+}
+
+.panel-question {
+    margin-top: 6px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    border: 2px dashed #ffafbd;
     text-align: center;
 }
 
-.player-block {
-    margin-bottom: 10px;
+.panel-question[hidden] {
+    display: none;
 }
 
-.player-block .big-avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 34px;
-    margin: 0 auto 4px;
+.panel-question .q-label {
+    color: #888;
+    font-size: 12px;
+    margin-right: 6px;
 }
 
-.grid-label {
+.panel-question .q-number {
+    color: #ff6b9d;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.panel-progress {
     font-size: 12px;
     color: #888;
-    margin-bottom: 8px;
+    margin-top: 4px;
 }
 
 /* 格子图 */
@@ -441,27 +505,6 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.question-display {
-    background: #fff;
-    border-radius: 10px;
-    padding: 14px 16px;
-    text-align: center;
-    border: 2px dashed #ffafbd;
-}
-
-.q-label {
-    color: #888;
-    font-size: 13px;
-    margin-right: 10px;
-}
-
-.q-number {
-    color: #ff6b9d;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: 2px;
 }
 
 /* 数字堆:宽度固定480,高度由JS按数字数量+疏密计算,数字不重叠 */
@@ -524,30 +567,6 @@ h2 {
     gap: 8px;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-.role-indicator {
-    background: #fff;
-    border-radius: 8px;
-    padding: 10px 12px;
-    text-align: center;
-    color: #c44569;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.role-indicator.questioner {
-    background: #fff0f5;
-    color: #c44569;
-}
-
-.role-indicator.finder {
-    background: #f0fff4;
-    color: #27ae60;
-}
-
-.role-indicator.waiting {
-    color: #888;
 }
 
 /* ========== 聊天面板 ========== */
@@ -752,11 +771,16 @@ h2 {
         flex-wrap: wrap;
     }
 
+    /* 手机端隐藏对方格子(节省空间),只看头像+昵称+进度文字 */
+    #peer-panel .grid-wrap {
+        display: none;
+    }
+
     /* 头像稍小 */
-    .side-panel .big-avatar {
-        width: 50px;
-        height: 50px;
-        font-size: 28px;
+    .panel-top .big-avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
     }
 
     /* 聊天框小屏下尺寸适配 */
